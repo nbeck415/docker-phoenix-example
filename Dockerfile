@@ -46,9 +46,7 @@ RUN apt-get update \
   && apt-get clean \
   && groupadd -g "${GID}" elixir \
   && useradd --create-home --no-log-init -u "${UID}" -g "${GID}" elixir \
-  && mkdir -p /mix && chown elixir:elixir -R /mix /app \
-  && mkdir -p /app/priv/static
-
+  && mkdir -p /mix && chown elixir:elixir -R /mix /app
 USER elixir
 
 RUN mix local.hex --force && mix local.rebar --force
