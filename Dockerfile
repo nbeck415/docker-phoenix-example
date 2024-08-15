@@ -65,9 +65,10 @@ RUN mix deps.compile
 COPY --chown=elixir:elixir --from=assets /app/priv/static /public
 COPY --chown=elixir:elixir . .
 
-RUN if [ "${MIX_ENV}" != "dev" ]; then \
-  ln -s /public /app/priv/static \
-    && mix phx.digest && mix release && rm -rf /app/priv/static; fi
+RUN mkdir -p /app/priv/static && if [ "${MIX_ENV}" != "dev" ]; then \
+      ln -s /public /app/priv/static \
+      && mix phx.digest && mix release && rm -rf /app/priv/static; \
+    fi
 
 ENTRYPOINT ["/app/bin/docker-entrypoint-web"]
 
