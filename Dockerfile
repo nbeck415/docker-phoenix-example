@@ -63,6 +63,7 @@ RUN if [ "${MIX_ENV}" = "dev" ]; then \
 COPY --chown=elixir:elixir config/config.exs config/"${MIX_ENV}".exs config/
 RUN mix deps.compile
 
+RUN --chown=elixir:elixir mkdir -p /app/priv/static
 COPY --chown=elixir:elixir --from=assets /app/priv/static /public
 COPY --chown=elixir:elixir . .
 
