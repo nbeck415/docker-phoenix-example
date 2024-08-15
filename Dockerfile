@@ -46,7 +46,8 @@ RUN apt-get update \
   && apt-get clean \
   && groupadd -g "${GID}" elixir \
   && useradd --create-home --no-log-init -u "${UID}" -g "${GID}" elixir \
-  && mkdir -p /mix && chown elixir:elixir -R /mix /app
+  && mkdir -p /mix && chown elixir:elixir -R /mix /app \
+  && mkdir -p /app/priv/static
 
 USER elixir
 
@@ -63,7 +64,6 @@ RUN if [ "${MIX_ENV}" = "dev" ]; then \
 COPY --chown=elixir:elixir config/config.exs config/"${MIX_ENV}".exs config/
 RUN mix deps.compile
 
-RUN --chown=elixir:elixir mkdir -p /app/priv/static
 COPY --chown=elixir:elixir --from=assets /app/priv/static /public
 COPY --chown=elixir:elixir . .
 
